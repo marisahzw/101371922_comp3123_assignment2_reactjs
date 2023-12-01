@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: comp3123_assigment1
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      DB_CONNECTION_STRING: "mongodb+srv://admin:admin123@cluster0.dqrno8h.mongodb.net/comp3123_assigment1?retryWrites=true&w=majority"
+
+  frontend:
+    build:
+      context: ./101371922_comp3123_assignment2_reactjs
+    ports:
+      -  "8080:80"
+    depends_on:
+      - backend
